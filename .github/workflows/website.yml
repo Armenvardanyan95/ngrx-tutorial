@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node-version }}
 
@@ -27,7 +27,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{ hashFiles('yarn.lock') }}
@@ -38,7 +38,7 @@ jobs:
       - name: Build website
         run: yarn build
       - name: "Upload website build artifact"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.website-package-name }}
           path: ./build/
@@ -57,9 +57,9 @@ jobs:
 
     steps:
       # necessary for JamesIves/github-pages-deploy-action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ env.website-package-name }}
           path: ${{ env.package-path }}
